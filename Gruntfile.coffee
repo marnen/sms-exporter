@@ -14,6 +14,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
+  grunt.loadNpmTasks 'grunt-shell'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -48,6 +49,9 @@ module.exports = (grunt) ->
         dest: buildDir
         ext: '.html'
         extDot: 'last'
+    shell:
+      run:
+        command: "node-webkit #{buildDir}"
     watch:
       options:
         spawn: false
@@ -78,6 +82,8 @@ module.exports = (grunt) ->
           cwd: ''
         files: 'package.json'
         tasks: 'copy:package'
+
+  grunt.registerTask 'run', 'Run the application.', ['shell:run']
 
   grunt.event.on 'watch', (action, path, target) ->
     relativePath = removePathPrefix(sourceDir, path)

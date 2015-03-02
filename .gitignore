@@ -28,4 +28,5 @@ build/Release
 node_modules
 
 # Users Environment Variables
+.envrc
 .lock-wscript
