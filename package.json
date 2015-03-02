@@ -1,0 +1,12 @@
+{
+  "name": "sms-exporter",
+  "version": "0.0.1",
+  "description": "Exporter for iOS SMS backup files.",
+  "author": "Marnen Laibow-Koser <marnen@marnen.org>",
+  "homepage": "http://github.com/marnen/sms-exporter",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/marnen/sms-exporter.git"
+  }
+}
