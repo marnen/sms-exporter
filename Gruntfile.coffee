@@ -14,7 +14,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
-  grunt.loadNpmTasks 'grunt-shell'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -55,9 +54,6 @@ module.exports = (grunt) ->
         dest: buildDir
         ext: '.html'
         extDot: 'last'
-    shell:
-      run:
-        command: "node-webkit #{buildDir}"
     watch:
       options:
         spawn: false
@@ -89,7 +85,6 @@ module.exports = (grunt) ->
         files: 'package.json'
         tasks: 'copy:package'
 
-  grunt.registerTask 'run', 'Run the application.', ['shell:run']
   grunt.registerTask 'build', 'Clean out build directory and then build HTML and JavaScript into it.', ['clean:all', 'haml:build', 'coffee:build', 'copy:package']
 
   grunt.event.on 'watch', (action, path, target) ->
