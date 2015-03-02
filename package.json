@@ -11,6 +11,7 @@
   },
   "main": "index.html",
   "devDependencies": {
+    "chai": "*",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-coffee": "^0.13.0",
@@ -18,6 +19,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-haml": "^0.9.0",
     "grunt-shell": "^1.1.2",
-    "haml-coffee": "^1.14.1"
+    "haml-coffee": "^1.14.1",
+    "mocha": "*"
   }
 }
