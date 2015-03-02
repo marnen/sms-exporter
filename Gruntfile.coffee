@@ -3,6 +3,8 @@ module.exports = (grunt) ->
   coffeeFiles = '**/*.coffee'
   hamlFiles = '**/*.haml'
   sourceDir = 'source'
+  testDir = 'test'
+  testFiles = ['**/*.coffee', '**/*.js']
 
   replaceExtension = (path, extension) ->
     path.replace /\.[^.]+$/, extension
@@ -14,6 +16,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
+  grunt.loadNpmTasks 'grunt-mocha-test'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -54,6 +57,11 @@ module.exports = (grunt) ->
         dest: buildDir
         ext: '.html'
         extDot: 'last'
+    mochaTest:
+      test:
+        expand: true
+        cwd: testDir
+        src: testFiles
     watch:
       options:
         spawn: false
@@ -78,6 +86,12 @@ module.exports = (grunt) ->
         options:
           event: 'deleted'
         tasks: 'clean:html'
+      mocha:
+        files: testFiles
+        options:
+          spawn: true
+          cwd: {files: testDir}
+        tasks: 'mochaTest:test'
       package:
         options:
           spawn: true
