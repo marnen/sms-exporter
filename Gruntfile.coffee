@@ -1,4 +1,7 @@
 module.exports = (grunt) ->
+  hamlFiles = '**/*.haml'
+  sourceDir = 'source'
+
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
 
@@ -9,18 +12,18 @@ module.exports = (grunt) ->
         language: 'coffee'
       build:
         expand: true
-        cwd: 'source'
-        src: '**/*.haml'
+        cwd: sourceDir
+        src: hamlFiles
         dest: 'build'
         ext: '.html'
         extDot: 'last'
     watch:
       haml:
-        cwd: {files: 'source'}
-        files: '**/*.haml'
-        tasks: 'haml'
+        cwd: {files: sourceDir}
+        files: hamlFiles
+        tasks: 'haml:build'
         options:
           spawn: false
 
   grunt.event.on 'watch', (_, path) ->
-    grunt.config 'haml.build.src', path.substring(path.indexOf('/') + 1)
+    grunt.config 'haml.build.src', path.replace(new RegExp("^#{sourceDir}\\/"), '')
