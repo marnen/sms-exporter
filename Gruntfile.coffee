@@ -1,5 +1,5 @@
 module.exports = (grunt) ->
-  buildDir = 'build'
+  buildDir = 'build/'
   coffeeFiles = '**/*.coffee'
   hamlFiles = '**/*.haml'
   sourceDir = 'source'
@@ -11,6 +11,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
 
@@ -33,6 +34,10 @@ module.exports = (grunt) ->
         dest: buildDir
         ext: '.js'
         extDot: 'last'
+    copy:
+      package:
+        src: 'package.json'
+        dest: buildDir
     haml:
       options:
         language: 'coffee'
@@ -67,6 +72,12 @@ module.exports = (grunt) ->
         options:
           event: 'deleted'
         tasks: 'clean:html'
+      package:
+        options:
+          spawn: true
+          cwd: ''
+        files: 'package.json'
+        tasks: 'copy:package'
 
   grunt.event.on 'watch', (action, path, target) ->
     relativePath = removePathPrefix(sourceDir, path)
