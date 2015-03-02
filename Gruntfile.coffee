@@ -1,5 +1,6 @@
 module.exports = (grunt) ->
   buildDir = 'build'
+  coffeeFiles = '**/*.coffee'
   hamlFiles = '**/*.haml'
   sourceDir = 'source'
 
@@ -9,16 +10,29 @@ module.exports = (grunt) ->
     path.replace new RegExp("^#{prefix}\\/"), ''
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
     clean:
+      js:
+        expand: true
+        cwd: buildDir
+        src: '**/*.js'
       html:
         expand: true
         cwd: buildDir
         src: '**/*.html'
+    coffee:
+      build:
+        expand: true
+        cwd: sourceDir
+        src: coffeeFiles
+        dest: buildDir
+        ext: '.js'
+        extDot: 'last'
     haml:
       options:
         language: 'coffee'
@@ -33,6 +47,16 @@ module.exports = (grunt) ->
       options:
         spawn: false
         cwd: {files: sourceDir}
+      coffee:
+        files: coffeeFiles
+        options:
+          event: ['added', 'changed']
+        tasks: 'coffee:build'
+      coffeeDelete:
+        files: coffeeFiles
+        options:
+          event: 'deleted'
+        tasks: 'clean:js'
       haml:
         files: hamlFiles
         options:
@@ -48,6 +72,10 @@ module.exports = (grunt) ->
     relativePath = removePathPrefix(sourceDir, path)
 
     switch target
+      when 'coffee'
+        grunt.config 'coffee.build.src', relativePath
+      when 'coffeeDelete'
+        grunt.config 'clean.js.src', replaceExtension(relativePath, '.js')
       when 'haml'
         grunt.config 'haml.build.src', relativePath
       when 'hamlDelete'
