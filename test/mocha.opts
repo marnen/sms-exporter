@@ -1,0 +1,3 @@
+--compilers coffee:coffee-script/register
+--ui bdd
+--watch-extensions coffee
