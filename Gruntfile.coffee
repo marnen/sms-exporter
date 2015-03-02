@@ -19,6 +19,10 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
     clean:
+      all:
+        expand: true
+        cwd: buildDir
+        src: '**/*'
       js:
         expand: true
         cwd: buildDir
@@ -28,6 +32,8 @@ module.exports = (grunt) ->
         cwd: buildDir
         src: '**/*.html'
     coffee:
+      options:
+        sourceMap: true
       build:
         expand: true
         cwd: sourceDir
@@ -84,6 +90,7 @@ module.exports = (grunt) ->
         tasks: 'copy:package'
 
   grunt.registerTask 'run', 'Run the application.', ['shell:run']
+  grunt.registerTask 'build', 'Clean out build directory and then build HTML and JavaScript into it.', ['clean:all', 'haml:build', 'coffee:build', 'copy:package']
 
   grunt.event.on 'watch', (action, path, target) ->
     relativePath = removePathPrefix(sourceDir, path)
