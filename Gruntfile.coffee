@@ -162,7 +162,8 @@ module.exports = (grunt) ->
       when 'coffee'
         grunt.config 'coffee.build.src', sourcePath
       when 'coffeeDelete'
-        grunt.config 'clean.js.src', replaceExtension(sourcePath, '.js')
+        jsPath = replaceExtension(sourcePath, '.js')
+        grunt.config 'clean.js.src', [jsPath, jsPath + '.map']
       when 'cucumber'
         specs = if path.match(/\.feature$/) then [path] else [featureDir + featureFiles]
         grunt.config 'protractor.cucumber.options.args.specs', specs
@@ -173,4 +174,5 @@ module.exports = (grunt) ->
       when 'sass'
         grunt.config 'sass.build.src', sourcePath
       when 'sassDelete'
-        grunt.config 'clean.css.src', replaceExtension(sourcePath, '.css')
+        cssPath = replaceExtension(sourcePath, '.css')
+        grunt.config 'clean.css.src', [cssPath, cssPath + '.map']
