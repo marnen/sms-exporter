@@ -4,6 +4,8 @@ module.exports = (grunt) ->
   featureDir = 'features/'
   featureFiles = '**/*.feature'
   hamlFiles = '**/*.haml'
+  currentDir = process.env.PWD
+  sassFiles = ['**/*.scss', '**/*.sass']
   sourceDir = 'source'
   testDir = 'test'
   testFiles = ['**/*.coffee', '**/*.js']
@@ -20,6 +22,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-haml'
   grunt.loadNpmTasks 'grunt-mocha-test'
   grunt.loadNpmTasks 'grunt-protractor-runner'
+  grunt.loadNpmTasks 'grunt-sass'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -31,11 +34,15 @@ module.exports = (grunt) ->
       js:
         expand: true
         cwd: buildDir
-        src: '**/*.js'
+        src: ['**/*.js', '**/*.js.map']
       html:
         expand: true
         cwd: buildDir
         src: '**/*.html'
+      css:
+        expand: true
+        cwd: buildDir
+        src: ['**/*.css', '**/*.css.map']
     coffee:
       options:
         sourceMap: true
@@ -74,6 +81,16 @@ module.exports = (grunt) ->
             cucumberOpts:
               require: ['features/support/**/*', 'features/step_definitions/**/*']
             specs: [featureDir + featureFiles]
+    sass:
+      options:
+        sourceMap: true
+      build:
+        expand: true
+        cwd: sourceDir
+        src: sassFiles
+        dest: buildDir
+        ext: '.css'
+        extDot: 'last'
     watch:
       options:
         spawn: false
@@ -96,7 +113,7 @@ module.exports = (grunt) ->
       grunt:
         files: 'Gruntfile.coffee'
         options:
-          cwd: {files: '.'}
+          cwd: currentDir
         tasks: []
       haml:
         files: hamlFiles
@@ -117,9 +134,24 @@ module.exports = (grunt) ->
       package:
         options:
           spawn: true
-          cwd: ''
+          cwd: currentDir
         files: 'package.json'
         tasks: 'copy:package'
+      reloadAfterDelete:
+        files: '**/*'
+        event: ['deleted']
+        options:
+          reload: true
+      sass:
+        files: sassFiles
+        options:
+          event: ['added', 'changed']
+        tasks: 'sass:build'
+      sassDelete:
+        files: sassFiles
+        options:
+          event: 'deleted'
+        tasks: 'clean:css'
 
   grunt.registerTask 'build', 'Clean out build directory and then build HTML and JavaScript into it.', ['clean:all', 'haml:build', 'coffee:build', 'copy:package']
 
@@ -138,3 +170,7 @@ module.exports = (grunt) ->
         grunt.config 'haml.build.src', sourcePath
       when 'hamlDelete'
         grunt.config 'clean.html.src', replaceExtension(sourcePath, '.html')
+      when 'sass'
+        grunt.config 'sass.build.src', sourcePath
+      when 'sassDelete'
+        grunt.config 'clean.css.src', replaceExtension(sourcePath, '.css')
