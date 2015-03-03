@@ -10,14 +10,25 @@
     "url": "http://github.com/marnen/sms-exporter.git"
   },
   "main": "index.html",
+  "scripts": {
+    "start": "nw build"
+  },
   "devDependencies": {
+    "chai": "*",
+    "chai-as-promised": "^4.2.0",
+    "coffee-script": "^1.9.1",
+    "cucumber": "^0.4.8",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-coffee": "^0.13.0",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-haml": "^0.9.0",
-    "grunt-shell": "^1.1.2",
-    "haml-coffee": "^1.14.1"
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-protractor-runner": "^1.2.1",
+    "haml-coffee": "^1.14.1",
+    "mocha": "*",
+    "nw": "^0.12.0-rc1",
+    "protractor": "^1.8.0"
   }
 }
