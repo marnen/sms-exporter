@@ -84,6 +84,7 @@ module.exports = (grunt) ->
     sass:
       options:
         sourceMap: true
+        includePaths: ['node_modules/foundation-apps/scss/']
       build:
         expand: true
         cwd: sourceDir
