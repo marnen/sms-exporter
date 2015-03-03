@@ -1,6 +1,8 @@
 module.exports = (grunt) ->
   buildDir = 'build/'
   coffeeFiles = '**/*.coffee'
+  featureDir = 'features/'
+  featureFiles = '**/*.feature'
   hamlFiles = '**/*.haml'
   sourceDir = 'source'
   testDir = 'test'
@@ -17,6 +19,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-haml'
   grunt.loadNpmTasks 'grunt-mocha-test'
+  grunt.loadNpmTasks 'grunt-protractor-runner'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -62,6 +65,15 @@ module.exports = (grunt) ->
         expand: true
         cwd: testDir
         src: testFiles
+    protractor:
+      cucumber:
+        options:
+          configFile: 'protractor.conf.js'
+          args:
+            framework: 'cucumber'
+            cucumberOpts:
+              require: ['features/support/**/*', 'features/step_definitions/**/*']
+            specs: [featureDir + featureFiles]
     watch:
       options:
         spawn: false
@@ -76,6 +88,11 @@ module.exports = (grunt) ->
         options:
           event: 'deleted'
         tasks: 'clean:js'
+      cucumber:
+        files: featureFiles
+        options:
+          cwd: {files: featureDir}
+        tasks: 'protractor:cucumber'
       haml:
         files: hamlFiles
         options:
@@ -102,14 +119,16 @@ module.exports = (grunt) ->
   grunt.registerTask 'build', 'Clean out build directory and then build HTML and JavaScript into it.', ['clean:all', 'haml:build', 'coffee:build', 'copy:package']
 
   grunt.event.on 'watch', (action, path, target) ->
-    relativePath = removePathPrefix(sourceDir, path)
+    sourcePath = removePathPrefix(sourceDir, path)
 
     switch target
       when 'coffee'
-        grunt.config 'coffee.build.src', relativePath
+        grunt.config 'coffee.build.src', sourcePath
       when 'coffeeDelete'
-        grunt.config 'clean.js.src', replaceExtension(relativePath, '.js')
+        grunt.config 'clean.js.src', replaceExtension(sourcePath, '.js')
+      when 'cucumber'
+        grunt.config 'protractor.cucumber.options.args.specs', [path]
       when 'haml'
-        grunt.config 'haml.build.src', relativePath
+        grunt.config 'haml.build.src', sourcePath
       when 'hamlDelete'
-        grunt.config 'clean.html.src', replaceExtension(relativePath, '.html')
+        grunt.config 'clean.html.src', replaceExtension(sourcePath, '.html')
