@@ -89,7 +89,7 @@ module.exports = (grunt) ->
           event: 'deleted'
         tasks: 'clean:js'
       cucumber:
-        files: featureFiles
+        files: '**/*'
         options:
           cwd: {files: featureDir}
         tasks: 'protractor:cucumber'
@@ -127,7 +127,8 @@ module.exports = (grunt) ->
       when 'coffeeDelete'
         grunt.config 'clean.js.src', replaceExtension(sourcePath, '.js')
       when 'cucumber'
-        grunt.config 'protractor.cucumber.options.args.specs', [path]
+        specs = if path.match(/\.feature$/) then [path] else [featureDir + featureFiles]
+        grunt.config 'protractor.cucumber.options.args.specs', specs
       when 'haml'
         grunt.config 'haml.build.src', sourcePath
       when 'hamlDelete'
