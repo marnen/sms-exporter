@@ -1,5 +1,11 @@
 {
   "name": "sms-exporter",
   "version": "0.0.1",
-  "dependencies": {}
+  "dependencies": {
+    "foundation-apps": {
+      "version": "1.0.3",
+      "from": "foundation-apps@*",
+      "resolved": "https://registry.npmjs.org/foundation-apps/-/foundation-apps-1.0.3.tgz"
+    }
+  }
 }
