@@ -93,6 +93,11 @@ module.exports = (grunt) ->
         options:
           cwd: {files: featureDir}
         tasks: 'protractor:cucumber'
+      grunt:
+        files: 'Gruntfile.coffee'
+        options:
+          cwd: {files: '.'}
+        tasks: []
       haml:
         files: hamlFiles
         options:
