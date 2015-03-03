@@ -2,14 +2,18 @@
 
 exports.config = {
   chromeDriver: './support/chromedriver', // relative path to node-webkit's chromedriver
-  chromeOnly: true, // starting Selenium server isn't required in our case
+  directConnect: true, // starting Selenium server isn't required in our case
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
       binary: process.env.PWD + '/node_modules/nw/nwjs/nwjs.app/Contents/MacOS/nwjs'
     }
   },
-  specs: ['test/e2e/**/*.js'],
+  framework: 'cucumber',
+  cucumberOpts: {
+    require: ['features/support/**/*.coffee', 'features/step_definitions/**/*.coffee']
+  },
+  specs: ['features/**/*.feature'],
   baseUrl: 'file://' + process.env.PWD + '/build/',
   rootElement: 'html', // specify a correct element where you bootstrap your AngularJS app, 'body' by default
 

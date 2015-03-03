@@ -24,7 +24,6 @@
     "grunt-haml": "^0.9.0",
     "grunt-mocha-test": "^0.12.7",
     "haml-coffee": "^1.14.1",
-    "jasmine-core": "^2.2.0",
     "mocha": "*",
     "nw": "^0.12.0-rc1"
   }
