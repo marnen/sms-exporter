@@ -138,11 +138,6 @@ module.exports = (grunt) ->
           cwd: currentDir
         files: 'package.json'
         tasks: 'copy:package'
-      reloadAfterDelete:
-        files: '**/*'
-        event: ['deleted']
-        options:
-          reload: true
       sass:
         files: sassFiles
         options:
