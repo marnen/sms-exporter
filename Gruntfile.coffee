@@ -10,6 +10,8 @@ module.exports = (grunt) ->
   testDir = 'test'
   testFiles = ['**/*.coffee', '**/*.js']
 
+  extension = (path) ->
+    path.match(/\.([^.]+)$/)[1]
   replaceExtension = (path, extension) ->
     path.replace /\.[^.]+$/, extension
   removePathPrefix = (prefix, path) ->
@@ -153,22 +155,19 @@ module.exports = (grunt) ->
 
   grunt.event.on 'watch', (action, path, target) ->
     sourcePath = removePathPrefix(sourceDir, path)
+    extensionMappings =
+      coffee: 'js'
+      haml: 'html'
+      sass: 'css'
 
-    switch target
-      when 'coffee'
-        grunt.config 'coffee.build.src', sourcePath
-      when 'coffeeDelete'
-        jsPath = replaceExtension(sourcePath, '.js')
-        grunt.config 'clean.js.src', [jsPath, jsPath + '.map']
-      when 'cucumber'
-        specs = if path.match(/\.feature$/) then [path] else [featureDir + featureFiles]
-        grunt.config 'protractor.cucumber.options.args.specs', specs
-      when 'haml'
-        grunt.config 'haml.build.src', sourcePath
-      when 'hamlDelete'
-        grunt.config 'clean.html.src', replaceExtension(sourcePath, '.html')
-      when 'sass'
-        grunt.config 'sass.build.src', sourcePath
-      when 'sassDelete'
-        cssPath = replaceExtension(sourcePath, '.css')
-        grunt.config 'clean.css.src', [cssPath, cssPath + '.map']
+    if target == 'cucumber'
+      specs = if path.match(/\.feature$/) then [path] else [featureDir + featureFiles]
+      grunt.config 'protractor.cucumber.options.args.specs', specs
+    else if action == 'deleted'
+      sourceExtension = extension path
+      targetExtension = extensionMappings[sourceExtension]
+      targetPath = replaceExtension sourcePath, ".#{targetExtension}"
+
+      grunt.config "clean.#{targetExtension}.src", [targetPath, "#{targetPath}.map"]
+    else
+      grunt.config "#{target}.build.src", sourcePath
