@@ -13,6 +13,9 @@
   "scripts": {
     "start": "nw build"
   },
+  "dependencies": {
+    "foundation-apps": "^1.0.3"
+  },
   "devDependencies": {
     "chai": "*",
     "chai-as-promised": "^4.2.0",
