@@ -151,7 +151,7 @@ module.exports = (grunt) ->
           event: 'deleted'
         tasks: 'clean:css'
 
-  grunt.registerTask 'build', 'Clean out build directory and then build HTML and JavaScript into it.', ['clean:all', 'haml:build', 'coffee:build', 'copy:package']
+  grunt.registerTask 'build', 'Clean out build directory and then build HTML, JavaScript, and CSS into it.', ['clean:all', 'haml:build', 'coffee:build', 'sass:build', 'copy:package']
 
   grunt.event.on 'watch', (action, path, target) ->
     sourcePath = removePathPrefix(sourceDir, path)
