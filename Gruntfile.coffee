@@ -82,6 +82,7 @@ module.exports = (grunt) ->
             framework: 'cucumber'
             cucumberOpts:
               require: ['features/support/**/*', 'features/step_definitions/**/*']
+              coffee: true
             specs: [featureDir + featureFiles]
     sass:
       options:
