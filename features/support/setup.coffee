@@ -4,8 +4,5 @@ module.exports = ->
   @World::expect = chai.expect
 
   @Before (callback) ->
-    FakeFS = require 'fake-fs'
-    @fs = new FakeFS
-
     browser.resetUrl = 'file://'
     browser.driver.get(browser.baseUrl + 'index.html').then callback
