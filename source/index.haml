@@ -1,0 +1,10 @@
+!!!
+%html(data-ng-app='smsExporter')
+  %script(src='../node_modules/angular/angular.min.js')
+  %script(src='scripts/app.js')
+  %script(src='scripts/controllers/my-controller.js')
+  %head
+    %title SMS Exporter
+  %body(data-ng-controller='myController')
+    %button(data-ng-click='getCurrentBackup()') Find SMS database
+    #current_backup {{currentBackup}}
