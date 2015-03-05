@@ -21,6 +21,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-env'
   grunt.loadNpmTasks 'grunt-haml'
   grunt.loadNpmTasks 'grunt-mocha-test'
   grunt.loadNpmTasks 'grunt-protractor-runner'
@@ -59,6 +60,9 @@ module.exports = (grunt) ->
       package:
         src: 'package.json'
         dest: buildDir
+    env:
+      test:
+        NW_ENV: 'test'
     haml:
       options:
         language: 'coffee'
@@ -113,7 +117,7 @@ module.exports = (grunt) ->
         files: '**/*'
         options:
           cwd: {files: featureDir}
-        tasks: 'protractor:cucumber'
+        tasks: 'cucumber'
       grunt:
         files: 'Gruntfile.coffee'
         options:
@@ -134,7 +138,7 @@ module.exports = (grunt) ->
         options:
           spawn: true
           cwd: {files: testDir}
-        tasks: 'mochaTest:test'
+        tasks: 'test'
       package:
         options:
           spawn: true
@@ -153,6 +157,8 @@ module.exports = (grunt) ->
         tasks: 'clean:css'
 
   grunt.registerTask 'build', 'Clean out build directory and then build HTML, JavaScript, and CSS into it.', ['clean:all', 'haml:build', 'coffee:build', 'sass:build', 'copy:package']
+  grunt.registerTask 'cucumber', 'Run Cucumber stories.', ['env:test', 'protractor:cucumber']
+  grunt.registerTask 'test', 'Run unit tests.', ['env:test', 'mochaTest:test']
 
   grunt.event.on 'watch', (action, path, target) ->
     sourcePath = removePathPrefix(sourceDir, path)
