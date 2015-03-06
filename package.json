@@ -34,6 +34,7 @@
     "grunt-sass": "// source map paths don't work -- see https://github.com/sass/node-sass/issues/731",
     "grunt-sass": "^0.18.0",
     "haml-coffee": "^1.14.1",
+    "mkdirp": "^0.5.0",
     "mocha": "*",
     "nw": "^0.12.0-rc1",
     "protractor": "^1.8.0",
