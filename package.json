@@ -36,6 +36,7 @@
     "haml-coffee": "^1.14.1",
     "mocha": "*",
     "nw": "^0.12.0-rc1",
-    "protractor": "^1.8.0"
+    "protractor": "^1.8.0",
+    "tmp": "0.0.25"
   }
 }
