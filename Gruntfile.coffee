@@ -61,6 +61,8 @@ module.exports = (grunt) ->
         src: 'package.json'
         dest: buildDir
     env:
+      cucumber:
+        NW_ENV: 'cucumber'
       test:
         NW_ENV: 'test'
     haml:
@@ -157,7 +159,7 @@ module.exports = (grunt) ->
         tasks: 'clean:css'
 
   grunt.registerTask 'build', 'Clean out build directory and then build HTML, JavaScript, and CSS into it.', ['clean:all', 'haml:build', 'coffee:build', 'sass:build', 'copy:package']
-  grunt.registerTask 'cucumber', 'Run Cucumber stories.', ['env:test', 'protractor:cucumber']
+  grunt.registerTask 'cucumber', 'Run Cucumber stories.', ['env:cucumber', 'protractor:cucumber']
   grunt.registerTask 'test', 'Run unit tests.', ['env:test', 'mochaTest:test']
 
   grunt.event.on 'watch', (action, path, target) ->
