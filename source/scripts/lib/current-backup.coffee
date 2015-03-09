@@ -2,6 +2,11 @@ fs = require 'fs'
 
 smsDb = '3d0d7e5fb2ce288813306e4d4636395e047a3d28' # fixed name of SMS DB file, thanks to Apple
 
+if process.env.NW_ENV == 'cucumber'
+  home = fs.readFileSync "#{process.env.PWD}/tmp/.test_home"
+else
+  home = process.env.HOME
+
 sortByMtime = (filenames) ->
   mtimes = {}
   filenames.sort (a, b) ->
@@ -18,11 +23,6 @@ sortByMtime = (filenames) ->
 
 module.exports =
   path: ->
-    if process.env.NW_ENV == 'cucumber'
-      home = fs.readFileSync "#{process.env.PWD}/tmp/.test_home"
-    else
-      home = process.env.HOME
-
     backupDir = "#{home}/Library/Application Support/MobileSync/Backup"
 
     # TODO: can we make this asynchronous?
