@@ -15,6 +15,18 @@ Feature: Locate SMS file
       | 1234567890      |
       | 987654321abcdef |
 
+  Scenario Outline: Ignore backup folders without SMS DB file
+    Given the following iOS backups exist:
+      | name          | modified   | SMS   |
+      | <real_backup> | 2014-01-01 | true  |
+      | 13579         | 2015-03-01 | false |
+    When I click "Find SMS database"
+    Then I should see "<real_backup>" within the current backup name
+
+    Examples:
+      | real_backup |
+      | 24680       |
+
   Scenario Outline: Use latest backup when there's more than one
     Given the following iOS backups exist:
       | name       | modified   |

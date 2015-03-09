@@ -19,11 +19,29 @@ describe 'currentBackup', ->
     mockFs.restore()
 
   describe '.path', ->
+    smsDb = '3d0d7e5fb2ce288813306e4d4636395e047a3d28' # fixed name of SMS DB file
+
+    createSmsDbIn = (path) =>
+      fs.writeFileSync "#{path}/#{smsDb}", ''
+
     context 'only one backup', ->
       it 'returns the full path to the one backup', ->
-        dirName = chance.hash()
-        backupPath = "#{backupDir}/#{dirName}"
+        dirname = chance.hash()
+        backupPath = "#{backupDir}/#{dirname}"
         fs.mkdirSync backupPath
+        createSmsDbIn backupPath
+
+        expect(currentBackup.path()).to.equal backupPath
+
+    context 'backup folders without SMS DB file', ->
+      it 'ignores them', ->
+        dirname = chance.hash()
+        backupPath = "#{backupDir}/#{dirname}"
+        fs.mkdirSync backupPath
+        createSmsDbIn backupPath
+
+        emptyFolder = chance.hash()
+        fs.mkdirSync "#{backupDir}/#{emptyFolder}"
 
         expect(currentBackup.path()).to.equal backupPath
 
@@ -38,6 +56,7 @@ describe 'currentBackup', ->
         for own backup, mtime of backups
           backupPath = "#{backupDir}/#{backup}"
           fs.mkdirSync backupPath
+          createSmsDbIn backupPath
           atime = fs.statSync(backupPath).atime
           fs.utimesSync backupPath, atime, mtime
 

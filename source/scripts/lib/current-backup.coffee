@@ -1,5 +1,7 @@
 fs = require 'fs'
 
+smsDb = '3d0d7e5fb2ce288813306e4d4636395e047a3d28' # fixed name of SMS DB file, thanks to Apple
+
 sortByMtime = (filenames) ->
   mtimes = {}
   filenames.sort (a, b) ->
@@ -23,5 +25,7 @@ exports.path = ->
   backupDir = "#{home}/Library/Application Support/MobileSync/Backup"
 
   # TODO: can we make this asynchronous?
-  backups = fs.readdirSync(backupDir).map (filename) -> [backupDir, filename].join '/'
+  backups = fs.readdirSync(backupDir).map (backup) -> [backupDir, backup].join '/'
+  backups = backups.filter (backup) ->
+    fs.readdirSync(backup).indexOf(smsDb) != -1
   sortByMtime(backups)[0]
