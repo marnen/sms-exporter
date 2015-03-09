@@ -28,6 +28,7 @@
   "devDependencies": {
     "chai": "*",
     "chai-as-promised": "^4.2.0",
+    "chance": "^0.7.3",
     "coffee-script": "^1.9.1",
     "cucumber": "^0.4.8",
     "grunt": "^0.4.5",
@@ -44,6 +45,7 @@
     "haml-coffee": "^1.14.1",
     "mkdirp": "^0.5.0",
     "mocha": "*",
+    "mock-fs": "^2.5.0",
     "nw": "^0.12.0-rc1",
     "protractor": "^1.8.0",
     "tmp": "0.0.25"
