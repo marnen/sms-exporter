@@ -16,16 +16,17 @@ sortByMtime = (filenames) ->
     else if mtimeA > mtimeB
       -1
 
-exports.path = ->
-  if process.env.NW_ENV == 'cucumber'
-    home = fs.readFileSync "#{process.env.PWD}/tmp/.test_home"
-  else
-    home = process.env.HOME
+module.exports =
+  path: ->
+    if process.env.NW_ENV == 'cucumber'
+      home = fs.readFileSync "#{process.env.PWD}/tmp/.test_home"
+    else
+      home = process.env.HOME
 
-  backupDir = "#{home}/Library/Application Support/MobileSync/Backup"
+    backupDir = "#{home}/Library/Application Support/MobileSync/Backup"
 
-  # TODO: can we make this asynchronous?
-  backups = fs.readdirSync(backupDir).map (backup) -> [backupDir, backup].join '/'
-  backups = backups.filter (backup) ->
-    fs.readdirSync(backup).indexOf(smsDb) != -1
-  sortByMtime(backups)[0]
+    # TODO: can we make this asynchronous?
+    backups = fs.readdirSync(backupDir).map (backup) -> [backupDir, backup].join '/'
+    backups = backups.filter (backup) ->
+      fs.readdirSync(backup).indexOf(smsDb) != -1
+    sortByMtime(backups)[0]
