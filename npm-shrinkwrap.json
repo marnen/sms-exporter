@@ -1750,18 +1750,6 @@
           }
         }
       }
-    },
-    "rekuire": {
-      "version": "0.1.9",
-      "from": "rekuire@*",
-      "resolved": "https://registry.npmjs.org/rekuire/-/rekuire-0.1.9.tgz",
-      "dependencies": {
-        "underscore": {
-          "version": "1.8.2",
-          "from": "underscore@>=1.7.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.2.tgz"
-        }
-      }
     }
   }
 }
