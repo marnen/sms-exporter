@@ -10,7 +10,12 @@ module.exports = ->
 
     for backup in table.hashes()
       dirname = "#{backupDir}/#{backup.name}"
+      filename = "#{dirname}/#{backupFileName}"
       fs.mkdirSync dirname
-      fs.writeFileSync "#{dirname}/#{backupFileName}", ''
+      fs.writeFileSync filename, ''
+
+      if backup.modified
+        atime = fs.statSync(dirname).atime
+        fs.utimesSync dirname, atime, new Date backup.modified
 
     callback()
