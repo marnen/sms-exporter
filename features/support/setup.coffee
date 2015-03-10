@@ -16,7 +16,7 @@ module.exports = ->
     fs.writeFileSync testHomePath, @testHome.name
 
     browser.resetUrl = 'file://'
-    browser.driver.get(browser.baseUrl + 'index.html').then callback
+    browser.get('index.html').then callback
 
   @After (callback) ->
     fs.unlinkSync testHomePath
