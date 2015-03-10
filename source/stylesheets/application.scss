@@ -1,1 +1,13 @@
 @import '../../node_modules/foundation-apps/scss/foundation';
+
+#frame {
+  @include grid-frame(vertical);
+}
+
+.title {
+  @include grid-block($orientation: vertical);
+}
+
+.find-backup {
+  @include grid-content;
+}
