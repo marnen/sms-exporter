@@ -6,7 +6,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      binary: process.env.PWD + '/node_modules/nw/nwjs/nwjs.app/Contents/MacOS/nwjs'
+      binary: require('./node_modules/nw/lib/findpath')()
     }
   },
   baseUrl: 'file://' + process.env.PWD + '/build/',

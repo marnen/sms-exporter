@@ -1,0 +1,16 @@
+!!!
+%html(data-ng-app='smsExporter')
+  %script(src='../node_modules/angular/angular.min.js')
+  %script(src='scripts/app.js')
+  %script(src='scripts/controllers/backups-controller.js')
+  %link(rel='stylesheet' href='stylesheets/application.css')
+  %head
+    %title iOS SMS Exporter
+  %body(data-ng-controller='backupsController')
+    %section#frame
+      .title
+        .grid-content.shrink
+          %p Click to find your iOS device's SMS backup file.
+        %section.find-backup
+          %button(data-ng-click='getCurrentBackup()') Find SMS database
+          #current_backup Current backup folder: {{currentBackup}}
